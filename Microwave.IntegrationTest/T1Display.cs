@@ -28,7 +28,7 @@ namespace IntegrationTest
             _output.OutputLine($"Display shows: {min:D2}:{sec:D2}");
 
 
-            Assert.AreEqual(_utt.);
+           
         }
 
 
