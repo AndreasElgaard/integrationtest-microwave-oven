@@ -14,7 +14,16 @@ namespace IntegrationTest
     [TestFixture]
     public class T2Ligh
     {
-        private 
-        private Ligh
+        private IOutput _output;
+        private Light _utt;
+
+        [SetUp]
+        public void Setup()
+        {
+            _output = new Output();
+            _utt = new Light(_output);
+        }
+
+
     }
 }
