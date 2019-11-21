@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="T1DIsplay.cs" />
+    <Compile Include="T2Ligh.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
