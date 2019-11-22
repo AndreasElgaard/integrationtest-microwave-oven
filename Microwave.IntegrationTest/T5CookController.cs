@@ -29,7 +29,7 @@ namespace Microwave.IntegrationTest
         public void Setup()
         {
             _Output = new Output();
-            _Timer = new Timer();
+            _Timer = Substitute.For<ITimer>();
             _Display = new Display(_Output);
             _PowerTube = new PowerTube(_Output);
             _Userinterface = Substitute.For<IUserInterface>();
@@ -44,9 +44,7 @@ namespace Microwave.IntegrationTest
             string Output;
             _Output.OutputLine($"PowerTube works with {power} %");
 
-            //Assert
-
-            using (StringWriter sw = new StringWriter())
+            using (var sw = new StringWriter())
             {
                 Console.SetOut(sw);
 
@@ -55,27 +53,84 @@ namespace Microwave.IntegrationTest
                 Output = sw.ToString();
             }
 
+            //Assert
             Assert.That(Output, Is.EqualTo($"PowerTube works with {power} %\r\n"));
-            Assert.That(_Timer.TimeRemaining, Is.EqualTo(time));
+            _Timer.Received(1).Start(time);
         }
 
         [Test]
-        public void StartCooking_PowerThrowsError_AndCorrectRemainTime()
+        [TestCase(1000, 30)]
+        [TestCase(0, 30)]
+        public void StartCooking_PowerThrowsError_AndCorrectRemainTime(int power, int time)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => _uut.StartCooking(power,time));
+        }
+
+        [Test]
+        public void StopCooking_OutpotsTurnedOff_TimerFalse()
         {
             //Act
-            _uut.StartCooking(1000,20);
+            string output;
+            _Output.OutputLine("PowerTube turned off");
+            _uut.StartCooking(10, 20);
 
+            using (var sw = new StringWriter())
+            {
+                Console.SetOut(sw);
 
-            //var ex = Assert.Throws<ArgumentOutOfRangeException>(() => _PowerTube.TurnOn(power));
-            //Assert.That(ex.Message, Is.EqualTo($"power, {power}, Must be between 1 and 100 % (incl.)"));
+                _uut.Stop();
 
-            //Assert.That(() => _PowerTube.TurnOn(power), Throws.Exception
-            //    .TypeOf<ArgumentOutOfRangeException>()
-            //    .With.Property("power").EqualTo("1000"));
+                output = sw.ToString();
+            }
 
-
-            Assert.Throws<ArgumentOutOfRangeException>(() => _PowerTube.TurnOn(1000));
-            //Assert.That(_Timer.TimeRemaining, Is.EqualTo(time));
+            //Assert
+            Assert.That(output, Is.EqualTo("PowerTube turned off\r\n"));
+            _Timer.Received(1).Stop();
         }
+
+        [Test]
+        public void OnTimerExpired_OutputPower_UICookingisdone()
+        {
+            //Act
+            string output;
+            _uut.StartCooking(10, 10);
+
+            using (var sw = new StringWriter())
+            {
+                Console.SetOut(sw);
+
+                _Timer.Expired += Raise.Event();
+
+                output = sw.ToString();
+            }
+
+            //Assert
+            Assert.That(output, Is.EqualTo("PowerTube turned off\r\n"));
+            _Userinterface.Received(1).CookingIsDone();
+        }
+
+        [Test]
+        public void OnTimerTick_DisplayTime()
+        {
+            //Act
+            string output;
+            _uut.StartCooking(20,30);
+
+            using (var sw = new StringWriter())
+            {
+                Console.SetOut(sw);
+
+                _Timer.TimerTick += Raise.Event();
+
+                output = sw.ToString();
+            }
+
+            var time = _Timer.TimeRemaining;
+
+            Assert.That(output, Is.EqualTo($"Display shows: {time/60:D2}:{time&60:D2}\r\n"));
+
+        }
+
+
     }
 }
