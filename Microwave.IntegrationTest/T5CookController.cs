@@ -9,7 +9,7 @@ using MicrowaveOvenClasses.Interfaces;
 using MicrowaveOvenClasses.Boundary;
 using MicrowaveOvenClasses.Controllers;
 using System.IO;
-using System.Security.Cryptography.X509Certificates;
+
 
 namespace Microwave.IntegrationTest
 {
@@ -42,7 +42,6 @@ namespace Microwave.IntegrationTest
         {
             //Act
             string Output;
-            _Output.OutputLine($"PowerTube works with {power} %");
 
             using (var sw = new StringWriter())
             {
@@ -71,7 +70,6 @@ namespace Microwave.IntegrationTest
         {
             //Act
             string output;
-            _Output.OutputLine("PowerTube turned off");
             _uut.StartCooking(10, 20);
 
             using (var sw = new StringWriter())

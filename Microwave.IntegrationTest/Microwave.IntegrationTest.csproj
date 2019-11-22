@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="T3PowerTube.cs" />
     <Compile Include="T5CookController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="T1Display.cs" />
