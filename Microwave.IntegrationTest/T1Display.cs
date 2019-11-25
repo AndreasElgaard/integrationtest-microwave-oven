@@ -21,6 +21,7 @@ namespace IntegrationTest
         public void Setup()
         {
             _output = new Output();
+            //_output = Substitute.For<IOutput>();
             _uut = new Display(_output);
         }
 
@@ -41,6 +42,11 @@ namespace IntegrationTest
             }
 
             Assert.That(output, Is.EqualTo($"Display shows: {min}:{sec}\r\n"));
+
+            //_uut.ShowTime(min, sec);
+            ////Assert
+            //_output.Received().OutputLine(Arg.Is<string>(x =>
+            //    x == $"Display shows: {min}:{sec}"));
         }
 
         [TestCase(2)]
@@ -60,6 +66,7 @@ namespace IntegrationTest
 
             Assert.That(output, Is.EqualTo($"Display shows: {power} W\r\n"));
         }
+
         [Test]
         public void Test_Clear_Is_what_expected()
         {

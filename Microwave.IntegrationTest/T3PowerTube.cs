@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MicrowaveOvenClasses.Boundary;
 using MicrowaveOvenClasses.Interfaces;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Microwave.IntegrationTest
@@ -18,24 +19,35 @@ namespace Microwave.IntegrationTest
         [SetUp]
         public void Setup()
         {
-            _output = new Output();
+            _output = Substitute.For<IOutput>();
+            //_Output = new Output();
             _uut = new PowerTube(_output);
         }
 
+        //[TestCase(10)]
+        ////[Test]
+        //public void Test_if_TunOn_is_correct_input(int power)
+        //{
+        //    string output;
+        //    //_uut.TurnOn(power);
+        //    using (StringWriter stringWriter = new StringWriter())
+        //    {
+        //        Console.SetOut(stringWriter);
+        //        _uut.TurnOn(power);
+        //        output = stringWriter.ToString();
+        //    }
+
+        //    Assert.That(output, Is.EqualTo("PowerTube works with 10 %\r\n"));
+        //}
+
         [TestCase(10)]
-        //[Test]
         public void Test_if_TunOn_is_correct_input(int power)
         {
-            string output;
-            //_uut.TurnOn(power);
-            using (StringWriter stringWriter = new StringWriter())
-            {
-                Console.SetOut(stringWriter);
-                _uut.TurnOn(power);
-                output = stringWriter.ToString();
-            }
-
-            Assert.That(output, Is.EqualTo("PowerTube works with 10 %\r\n"));
+            //SetUp
+            //Act
+            _uut.TurnOn(power);
+            //Assert
+            _output.Received().OutputLine(Arg.Is<string>(x => x == "PowerTube works with 10 %"));
         }
 
         [TestCase(101)]
@@ -48,29 +60,51 @@ namespace Microwave.IntegrationTest
         }
 
         [TestCase(1)]
+        public void Test_if_TunOn_is_already_on_1(int power)
+        {
+            _uut.TurnOn(power);
+            Assert.That(() => _uut.TurnOn(power), Throws.InvalidOperationException);
+        }
+
         [TestCase(99)]
+        public void Test_if_TunOn_is_already_on_99(int power)
+        {
+            _uut.TurnOn(power);
+            Assert.That(() => _uut.TurnOn(power), Throws.InvalidOperationException);
+        }
+
+        
         [TestCase(50)]
-        //[Test]
         public void Test_if_TunOn_is_already_on(int power)
         {
             _uut.TurnOn(power);
             Assert.That(() => _uut.TurnOn(power), Throws.InvalidOperationException);
         }
 
+        //[TestCase(10)]
+        ////[Test]
+        //public void Test_if_TurnOf_works(int power)
+        //{
+        //    string output;
+        //    using (StringWriter stringWriter = new StringWriter())
+        //    {
+        //        _uut.TurnOn(power);
+        //        Console.SetOut(stringWriter);
+        //        _uut.TurnOff();
+        //        output = stringWriter.ToString();
+        //    }
+        //    Assert.That(output, Is.EqualTo("PowerTube turned off\r\n"));
+        //}
+
         [TestCase(10)]
-        //[Test]
         public void Test_if_TurnOf_works(int power)
         {
-            string output;
-            using (StringWriter stringWriter = new StringWriter())
-            {
-                _uut.TurnOn(power);
-                Console.SetOut(stringWriter);
-                _uut.TurnOff();
-                output = stringWriter.ToString();
-            }
-
-            Assert.That(output, Is.EqualTo("PowerTube turned off\r\n"));
+            //SetUp
+            _uut.TurnOn(power);
+            //Act
+            _uut.TurnOff();
+            //Assert
+            _output.Received().OutputLine(Arg.Is<string>(x => x == "PowerTube turned off"));
         }
     }
 }

@@ -66,6 +66,23 @@ namespace Microwave.IntegrationTest
             _Output.Received().OutputLine(Arg.Is<string>(x => x == "Display shows: 50 W"));
         }
 
+        //[Test]
+        //public void OnPowerPressed_1Time_Output_shows_50W()
+        //{
+        //    string output;
+        //    //SetUp
+        //    _Door.Closed += Raise.Event();
+        //    using (StringWriter stringWriter = new StringWriter())
+        //    {
+        //        Console.SetOut(stringWriter);
+        //        //Act
+        //        _PowerButton.Pressed += Raise.Event();
+        //        output = stringWriter.ToString();
+        //    }
+
+        //    Assert.That(output, Is.EqualTo($"Display shows: 50 W\r\n"));
+        //}
+
         [Test]
         public void OnPowerPressed_15Times_Output_shows_50W()
         {
@@ -81,6 +98,27 @@ namespace Microwave.IntegrationTest
             _Output.Received().OutputLine(Arg.Is<string>(x => x == "Display shows: 50 W"));
         }
 
+        //[Test]
+        //public void OnPowerPressed_15Times_Output_shows_50W()
+        //{
+        //    string output;
+        //    using (StringWriter stringWriter = new StringWriter())
+        //    {
+        //        //SetUp
+        //        _Door.Closed += Raise.Event();
+        //        for (int i = 0; i < 14; i++)
+        //        {
+        //            _PowerButton.Pressed += Raise.Event();
+        //        }
+        //        Console.SetOut(stringWriter);
+        //        //Act
+        //        _PowerButton.Pressed += Raise.Event();
+        //        output = stringWriter.ToString();
+        //    }
+
+        //    Assert.That(output, Is.EqualTo($"Display shows: 50 W\r\n"));
+        //}
+
         [Test]
         public void OnPowerPressed_Times_Output_shows_700W()
         {
@@ -95,6 +133,27 @@ namespace Microwave.IntegrationTest
             //Assert
             _Output.Received().OutputLine(Arg.Is<string>(x => x == "Display shows: 700 W"));
         }
+
+        //[Test]
+        //public void OnPowerPressed_Times_Output_shows_700W()
+        //{
+        //    string output;
+        //    using (StringWriter stringWriter = new StringWriter())
+        //    {
+        //        //SetUp
+        //        _Door.Closed += Raise.Event();
+        //        for (int i = 0; i < 13; i++)
+        //        {
+        //            _PowerButton.Pressed += Raise.Event();
+        //        }
+        //        Console.SetOut(stringWriter);
+        //        //Act
+        //        _PowerButton.Pressed += Raise.Event();
+        //        output = stringWriter.ToString();
+        //    }
+
+        //    Assert.That(output, Is.EqualTo($"Display shows: 700 W\r\n"));
+        //}
 
         #endregion
 
@@ -112,6 +171,24 @@ namespace Microwave.IntegrationTest
             _Output.Received().OutputLine(Arg.Is<string>(x => x == $"Display shows: 01:00"));
         }
 
+        //[Test]
+        //public void OnTimePressed_1Time_Output_shows_1minute()
+        //{
+        //    string output;
+        //    using (StringWriter stringWriter = new StringWriter())
+        //    {
+        //        //Setup
+        //        _Door.Closed += Raise.Event();
+        //        _PowerButton.Pressed += Raise.Event();
+        //        Console.SetOut(stringWriter);
+        //        //Act
+        //        _TimeButton.Pressed += Raise.Event();
+        //        output = stringWriter.ToString();
+        //    }
+
+        //    Assert.That(output, Is.EqualTo($"Display shows: 01:00\r\n"));
+        //}
+
         [Test]
         public void OnTimePressed_200Times_Output_shows_100minutes()
         {
@@ -121,12 +198,34 @@ namespace Microwave.IntegrationTest
             //Act
             for (int i = 0; i < 100; i++)
             {
-                _TimeButton.Pressed += Raise.EventWith(EventArgs.Empty);
+                _TimeButton.Pressed += Raise.Event();
             }
 
             //Assert
             _Output.Received().OutputLine(Arg.Is<string>(x => x == $"Display shows: 100:00"));
         }
+
+        //[Test]
+        //public void OnTimePressed_200Times_Output_shows_100minutes()
+        //{
+        //    string output;
+        //    using (StringWriter stringWriter = new StringWriter())
+        //    {
+        //        //Setup
+        //        _Door.Closed += Raise.Event();
+        //        _PowerButton.Pressed += Raise.Event();
+        //        for (int i = 0; i < 100; i++)
+        //        {
+        //            _TimeButton.Pressed += Raise.EventWith(EventArgs.Empty);
+        //        }
+        //        Console.SetOut(stringWriter);
+        //        //Act
+        //        _TimeButton.Pressed += Raise.Event();
+        //        output = stringWriter.ToString();
+        //    }
+
+        //    Assert.That(output, Is.EqualTo($"Display shows: 101:00\r\n"));
+        //}
 
         #endregion
 
@@ -145,6 +244,25 @@ namespace Microwave.IntegrationTest
             _Output.Received().OutputLine(Arg.Is<string>(x => x == $"PowerTube works with 50 %"));
         }
 
+        //[Test]
+        //public void OnStarCancelPressed_1Time_Output_shows_50()
+        //{
+        //    string output;
+        //    using (StringWriter stringWriter = new StringWriter())
+        //    {
+        //        //Setup
+        //        _Door.Closed += Raise.Event();
+        //        _PowerButton.Pressed += Raise.Event();
+        //        _TimeButton.Pressed += Raise.Event();
+        //        Console.SetOut(stringWriter);
+        //        //Act
+        //        _StartCancelButton.Pressed += Raise.Event();
+        //        output = stringWriter.ToString();
+        //    }
+
+        //    Assert.That(output, Is.EqualTo($"Display cleared\r\nLight is turned on\r\nPowerTube works with 50 %\r\n"));
+        //}
+
         [Test]
         public void OnStarCancelPressed_2Times_Output_shows_PowerTubeTurnedOff()
         {
@@ -161,6 +279,26 @@ namespace Microwave.IntegrationTest
             _Output.Received().OutputLine(Arg.Is<string>(x => x == $"Display cleared"));
         }
 
+        //[Test]
+        //public void OnStarCancelPressed_2Times_Output_shows_PowerTubeTurnedOff()
+        //{
+        //    string output;
+        //    using (StringWriter stringWriter = new StringWriter())
+        //    {
+        //        //Setup
+        //        _Door.Closed += Raise.Event();
+        //        _PowerButton.Pressed += Raise.Event();
+        //        _TimeButton.Pressed += Raise.Event();
+        //        _StartCancelButton.Pressed += Raise.Event();
+        //        Console.SetOut(stringWriter);
+        //        //Act
+        //        _StartCancelButton.Pressed += Raise.Event();
+        //        output = stringWriter.ToString();
+        //    }
+
+        //    Assert.That(output, Is.EqualTo($"PowerTube turned off\r\nLight is turned off\r\nDisplay cleared\r\n"));
+        //}
+
         #endregion
 
         #region OnDoorOpened
@@ -175,6 +313,22 @@ namespace Microwave.IntegrationTest
             //Assert
             _Output.Received().OutputLine(Arg.Is<string>(x => x == $"Light is turned on"));
         }
+        //[Test]
+        //public void OnDoorOpened_1Time_Output_shows_PowerTubeTurnedOFf()
+        //{
+        //    string output;
+        //    using (StringWriter stringWriter = new StringWriter())
+        //    {
+        //        //Setup
+        //        _Door.Closed += Raise.Event();
+        //        Console.SetOut(stringWriter);
+        //        //Act
+        //        _Door.Opened += Raise.Event();
+        //        output = stringWriter.ToString();
+        //    }
+
+        //    Assert.That(output, Is.EqualTo($"Light is turned on\r\n"));
+        //}
 
         #endregion
 
@@ -192,6 +346,22 @@ namespace Microwave.IntegrationTest
             _Output.Received().OutputLine(Arg.Is<string>(x => x == $"Light is turned off"));
         }
 
+        //[Test]
+        //public void OnDoorOpened_1Time_output_shows_LightIsTurnedOff()
+        //{
+        //    string output;
+        //    //Setup
+        //    _Door.Opened += Raise.Event();
+        //    using (StringWriter stringWriter = new StringWriter())
+        //    {
+        //        Console.SetOut(stringWriter);
+        //        //Act
+        //        _Door.Closed += Raise.Event();
+        //        output = stringWriter.ToString();
+        //    }
+
+        //    Assert.That(output, Is.EqualTo($"Light is turned off\r\n"));
+        //}
         #endregion
 
         #region OnCookingIsDone
@@ -208,6 +378,26 @@ namespace Microwave.IntegrationTest
             //Assert
             _Output.Received().OutputLine(Arg.Is<string>(x => x == $"PowerTube turned off"));
         }
+
+        //[Test]
+        //public void OnCookingIsDone_output_show_()
+        //{
+        //    string output;
+        //    using (StringWriter stringWriter = new StringWriter())
+        //    {
+        //        //Setup
+        //        _Door.Closed += Raise.Event();
+        //        _PowerButton.Pressed += Raise.Event();
+        //        _TimeButton.Pressed += Raise.Event();
+        //        _StartCancelButton.Pressed += Raise.Event();
+        //        Console.SetOut(stringWriter);
+        //        //Act
+        //        _Timer.Expired += Raise.Event();
+        //        output = stringWriter.ToString();
+        //    }
+
+        //    Assert.That(output, Is.EqualTo($"PowerTube turned off\r\n"));
+        //}
         #endregion
     }
 }
