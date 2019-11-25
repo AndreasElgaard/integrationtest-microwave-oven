@@ -18,12 +18,12 @@ namespace MicrowaveOvenClasses.Boundary
         {
             if (power < 1 || 100 < power)
             {
-                throw new ArgumentOutOfRangeException("power", power, "Must be between 1 and 100 % (incl.)");
+                throw new ArgumentException("power Must be between 1 and 100 % (incl.)");
             }
 
             if (IsOn)
             {
-                throw new ApplicationException("PowerTube.TurnOn: is already on");
+                throw new InvalidOperationException("PowerTube.TurnOn: is already on");
             }
 
             myOutput.OutputLine($"PowerTube works with {power} %");
