@@ -31,7 +31,7 @@ namespace IntegrationTest
             string output;
             //int min = 59;
             //int sec = 59; 
-            _output.OutputLine($"Display shows: {min:D2}:{sec:D2}");
+            //_output.OutputLine($"Display shows: {min:D2}:{sec:D2}");
 
             using (StringWriter stringWriter = new StringWriter())
             {
@@ -49,7 +49,7 @@ namespace IntegrationTest
         {
             string output;
             //int power = 2; 
-            _output.OutputLine($"Display shows: {power} W");
+            //_output.OutputLine($"Display shows: {power} W");
 
             using (StringWriter stringWriter = new StringWriter())
             {
@@ -64,7 +64,7 @@ namespace IntegrationTest
         public void Test_Clear_Is_what_expected()
         {
             string output;
-            _output.OutputLine($"Display cleared");
+            //_output.OutputLine($"Display cleared");
 
             using (StringWriter stringWriter = new StringWriter())
             {

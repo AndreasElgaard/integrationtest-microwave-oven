@@ -62,9 +62,9 @@ namespace Microwave.IntegrationTest
         public void Test_if_TurnOf_works(int power)
         {
             string output;
-            _uut.TurnOn(power);
             using (StringWriter stringWriter = new StringWriter())
             {
+                _uut.TurnOn(power);
                 Console.SetOut(stringWriter);
                 _uut.TurnOff();
                 output = stringWriter.ToString();
