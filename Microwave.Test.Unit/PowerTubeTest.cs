@@ -45,25 +45,25 @@ namespace Microwave.Test.Unit
         public void TurnOn_WasOn_ThrowsException()
         {
             uut.TurnOn(50);
-            Assert.Throws<System.ApplicationException>(() => uut.TurnOn(60));
+            Assert.Throws<System.InvalidOperationException>(() => uut.TurnOn(60));
         }
 
         [Test]
         public void TurnOn_NegativePower_ThrowsException()
         {
-            Assert.Throws<System.ArgumentOutOfRangeException>(() => uut.TurnOn(-1));
+            Assert.Throws<System.ArgumentException>(() => uut.TurnOn(-1));
         }
 
         [Test]
         public void TurnOn_HighPower_ThrowsException()
         {
-            Assert.Throws<System.ArgumentOutOfRangeException>(() => uut.TurnOn(101));
+            Assert.Throws<System.ArgumentException>(() => uut.TurnOn(101));
         }
 
         [Test]
         public void TurnOn_ZeroPower_ThrowsException()
         {
-            Assert.Throws<System.ArgumentOutOfRangeException>(() => uut.TurnOn(0));
+            Assert.Throws<System.ArgumentException>(() => uut.TurnOn(0));
         }
 
     }
