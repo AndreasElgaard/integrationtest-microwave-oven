@@ -23,11 +23,9 @@ namespace Microwave.IntegrationTest
         }
 
         [TestCase(10)]
-        //[Test]
         public void Test_if_TunOn_is_correct_input(int power)
         {
             string output;
-            //_uut.TurnOn(power);
             using (StringWriter stringWriter = new StringWriter())
             {
                 Console.SetOut(stringWriter);
@@ -41,7 +39,6 @@ namespace Microwave.IntegrationTest
         [TestCase(101)]
         [TestCase(0)]
         [TestCase(10101)]
-        //[Test]
         public void Test_if_TunOn_is_Not_correct_input(int power)
         {
             Assert.That(() => _uut.TurnOn(power), Throws.ArgumentException);
@@ -50,7 +47,6 @@ namespace Microwave.IntegrationTest
         [TestCase(1)]
         [TestCase(99)]
         [TestCase(50)]
-        //[Test]
         public void Test_if_TunOn_is_already_on(int power)
         {
             _uut.TurnOn(power);
@@ -58,7 +54,6 @@ namespace Microwave.IntegrationTest
         }
 
         [TestCase(10)]
-        //[Test]
         public void Test_if_TurnOf_works(int power)
         {
             string output;
