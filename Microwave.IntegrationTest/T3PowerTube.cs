@@ -33,7 +33,7 @@ namespace Microwave.IntegrationTest
             //Act
             _uut.TurnOn(power);
             //Assert
-            _output.Received().OutputLine(Arg.Is<string>(x => x == "PowerTube works with 50 W"));
+            _output.Received().OutputLine(Arg.Is<string>(x => x.Contains($"PowerTube works with {power} Watt")));
         }
 
 
@@ -45,7 +45,7 @@ namespace Microwave.IntegrationTest
             //Act
             _uut.TurnOff();
             //Assert
-            _output.Received().OutputLine(Arg.Is<string>(x => x == "PowerTube turned off"));
+            _output.Received().OutputLine(Arg.Is<string>(x => x.Contains("PowerTube turned off")));
         }
     }
 }
