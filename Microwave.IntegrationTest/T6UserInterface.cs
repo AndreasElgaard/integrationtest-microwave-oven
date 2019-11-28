@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using MicrowaveOvenClasses.Boundary;
@@ -26,6 +27,7 @@ namespace Microwave.IntegrationTest
         private IButton _TimeButton;
         private IButton _StartCancelButton;
         private IDoor _Door;
+        private IUserInterface _ui;
 
         private CookController _CookController;
         private UserInterface _uut;
@@ -46,11 +48,13 @@ namespace Microwave.IntegrationTest
             _StartCancelButton = Substitute.For<IButton>();
             _Door = Substitute.For<IDoor>();
 
-
+            
             //_CookController = Substitute.For<CookController>();
-            _CookController = new CookController(_Timer, _Display, _PowerTube);
+            _ui = Substitute.For<IUserInterface>();
+            _CookController = new CookController(_Timer, _Display, _PowerTube,_ui);
             _uut = new UserInterface(_PowerButton, _TimeButton, _StartCancelButton, _Door,
                 _Display, _Light, _CookController);
+            
         }
 
         #region OnPowerPressed
@@ -241,7 +245,7 @@ namespace Microwave.IntegrationTest
             //Act
             _StartCancelButton.Pressed += Raise.Event();
             //Assert
-            _Output.Received().OutputLine(Arg.Is<string>(x => x == $"PowerTube works with 50 %"));
+            _Output.Received().OutputLine(Arg.Is<string>(x => x == $"PowerTube works with 50 Watt"));
         }
 
         //[Test]
@@ -375,8 +379,10 @@ namespace Microwave.IntegrationTest
             _StartCancelButton.Pressed += Raise.Event();
             //Act
             _Timer.Expired += Raise.Event();
-            //_uut.Received(1).CookingIsDone();
+
             //Assert
+            //_Output.Received().OutputLine(Arg.Is<string>(str => str.Contains("PowerTube turned off")));
+            //_uut.Received(1).CookingIsDone();
             _Output.Received().OutputLine(Arg.Is<string>(x => x == $"PowerTube turned off"));
         }
 
