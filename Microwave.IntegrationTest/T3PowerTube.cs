@@ -41,7 +41,7 @@ namespace Microwave.IntegrationTest
         //}
 
         [TestCase(10)]
-        public void Test_if_TunOn_is_correct_input(int power)
+        public void Test_if_TurnOn_is_correct_input(int power)
         {
             //SetUp
             //Act
@@ -50,20 +50,6 @@ namespace Microwave.IntegrationTest
             _output.Received().OutputLine(Arg.Is<string>(x => x == "PowerTube works with 10 %"));
         }
 
-        //[TestCase(10)]
-        ////[Test]
-        //public void Test_if_TurnOf_works(int power)
-        //{
-        //    string output;
-        //    using (StringWriter stringWriter = new StringWriter())
-        //    {
-        //        _uut.TurnOn(power);
-        //        Console.SetOut(stringWriter);
-        //        _uut.TurnOff();
-        //        output = stringWriter.ToString();
-        //    }
-        //    Assert.That(output, Is.EqualTo("PowerTube turned off\r\n"));
-        //}
 
         [TestCase(10)]
         public void Test_if_TurnOf_works(int power)
