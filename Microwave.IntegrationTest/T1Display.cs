@@ -21,6 +21,7 @@ namespace IntegrationTest
         public void Setup()
         {
             _output = new Output();
+            //_output = Substitute.For<IOutput>();
             _uut = new Display(_output);
         }
 
@@ -31,7 +32,7 @@ namespace IntegrationTest
             string output;
             //int min = 59;
             //int sec = 59; 
-            _output.OutputLine($"Display shows: {min:D2}:{sec:D2}");
+            //_output.OutputLine($"Display shows: {min:D2}:{sec:D2}");
 
             using (StringWriter stringWriter = new StringWriter())
             {
@@ -48,8 +49,6 @@ namespace IntegrationTest
         public void Test_ShowPower_Is_what_expected(int power)
         {
             string output;
-            //int power = 2; 
-            _output.OutputLine($"Display shows: {power} W");
 
             using (StringWriter stringWriter = new StringWriter())
             {
@@ -60,11 +59,12 @@ namespace IntegrationTest
 
             Assert.That(output, Is.EqualTo($"Display shows: {power} W\r\n"));
         }
+
         [Test]
         public void Test_Clear_Is_what_expected()
         {
             string output;
-            _output.OutputLine($"Display cleared");
+            //_output.OutputLine($"Display cleared");
 
             using (StringWriter stringWriter = new StringWriter())
             {

@@ -41,28 +41,38 @@ namespace Microwave.IntegrationTest
         public void StartCooking_OutputsPower_AndCorrectRemainTime(int power, int time)
         {
             //Act
-            string Output;
+            string output;
 
-            using (var sw = new StringWriter())
+            using (StringWriter sw = new StringWriter())
             {
                 Console.SetOut(sw);
 
                 _uut.StartCooking(power, time);
-
-                Output = sw.ToString();
+                
+                output = sw.ToString();
             }
 
             //Assert
-            Assert.That(Output, Is.EqualTo($"PowerTube works with {power} %\r\n"));
+            Assert.That(output, Is.EqualTo($"PowerTube works with {power} %\r\n"));
             _Timer.Received(1).Start(time);
         }
+
+        [Test]
+        public void StartCooking_Outputs_TurnOnIsAlreadyOn()
+        {
+            //Act
+            _uut.StartCooking(20, 20);
+
+            Assert.Throws<InvalidOperationException>(() => _uut.StartCooking(20, 20));
+        }
+
 
         [Test]
         [TestCase(1000, 30)]
         [TestCase(0, 30)]
         public void StartCooking_PowerThrowsError_AndCorrectRemainTime(int power, int time)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => _uut.StartCooking(power,time));
+            Assert.Throws<ArgumentException>(() => _uut.StartCooking(power,time));
         }
 
         [Test]
@@ -70,10 +80,12 @@ namespace Microwave.IntegrationTest
         {
             //Act
             string output;
-            _uut.StartCooking(10, 20);
+            
 
-            using (var sw = new StringWriter())
+            using (StringWriter sw = new StringWriter())
             {
+                _uut.StartCooking(10, 20);
+
                 Console.SetOut(sw);
 
                 _uut.Stop();
@@ -91,10 +103,11 @@ namespace Microwave.IntegrationTest
         {
             //Act
             string output;
-            _uut.StartCooking(10, 10);
+           
 
-            using (var sw = new StringWriter())
+            using (StringWriter sw = new StringWriter())
             {
+                _uut.StartCooking(10, 10);
                 Console.SetOut(sw);
 
                 _Timer.Expired += Raise.Event();
@@ -112,10 +125,10 @@ namespace Microwave.IntegrationTest
         {
             //Act
             string output;
-            _uut.StartCooking(20,30);
-
-            using (var sw = new StringWriter())
+            
+            using (StringWriter sw = new StringWriter())
             {
+                _uut.StartCooking(20, 30);
                 Console.SetOut(sw);
 
                 _Timer.TimerTick += Raise.Event();
@@ -128,7 +141,5 @@ namespace Microwave.IntegrationTest
             Assert.That(output, Is.EqualTo($"Display shows: {time/60:D2}:{time&60:D2}\r\n"));
 
         }
-
-
     }
 }
