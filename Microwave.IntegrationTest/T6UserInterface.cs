@@ -375,6 +375,7 @@ namespace Microwave.IntegrationTest
             _StartCancelButton.Pressed += Raise.Event();
             //Act
             _Timer.Expired += Raise.Event();
+            //_uut.Received(1).CookingIsDone();
             //Assert
             _Output.Received().OutputLine(Arg.Is<string>(x => x == $"PowerTube turned off"));
         }
