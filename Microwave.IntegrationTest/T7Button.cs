@@ -94,7 +94,7 @@ namespace Microwave.IntegrationTest
             }
 
             Assert.That(output, Is.EqualTo("Display shows: 50 W\r\nDisplay shows: 01:00\r\n" +
-                                           "Display cleared\r\nLight is turned on\r\nPowerTube works with 50 %\r\n"));
+                                           "Display cleared\r\nLight is turned on\r\nPowerTube works with 50 Watt\r\n"));
         }
     }
 }

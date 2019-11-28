@@ -38,7 +38,7 @@ namespace Microwave.Test.Unit
             uut.Start(2);
 
             // wait shorter than a tick, shouldn't come
-            Assert.That(!pause.WaitOne(900));
+            Assert.That(!pause.WaitOne(800));
 
             uut.Stop();
         }
