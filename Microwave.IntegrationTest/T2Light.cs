@@ -21,7 +21,7 @@ namespace IntegrationTest
         [SetUp]
         public void Setup()
         {
-            _output = new Output();
+            _output = Substitute.For<IOutput>();
             _utt = new Light(_output);
         }
 
@@ -29,20 +29,10 @@ namespace IntegrationTest
         public void Output_LightIsOn()
         {
             //Act
-            string Output;
             _output.OutputLine("Light is turned on");
 
-            using (StringWriter sw = new StringWriter())
-            {
-                Console.SetOut(sw);
-
-                _utt.TurnOn();
-
-                Output = sw.ToString();
-            }
-
             //Assert
-            Assert.That(Output, Is.EqualTo("Light is turned on\r\n"));
+            _output.Received().OutputLine(Arg.Is<string>(str => str.Contains("Light is turned on")));
         }
 
         [Test]
@@ -50,20 +40,10 @@ namespace IntegrationTest
         {
             //Act
             _utt.TurnOn();
-            string Output;
-            _output.OutputLine("Light is turned off");
-
-            using (StringWriter sw = new StringWriter())
-            {
-                Console.SetOut(sw);
-
-                _utt.TurnOff();
-
-                Output = sw.ToString();
-            }
+            _utt.TurnOff();
 
             //Assert
-            Assert.That(Output, Is.EqualTo("Light is turned off\r\n"));
+            _output.Received().OutputLine(Arg.Is<string>(str => str.Contains("Light is turned off")));
 
         }
     }
