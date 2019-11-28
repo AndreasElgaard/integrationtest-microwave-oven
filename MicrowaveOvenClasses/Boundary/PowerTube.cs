@@ -27,7 +27,7 @@ namespace MicrowaveOvenClasses.Boundary
                 throw new ApplicationException("PowerTube.TurnOn: is already on");
             }
 
-            myOutput.OutputLine($"PowerTube works with {power} W");
+            myOutput.OutputLine($"PowerTube works with {power} Watt");
             IsOn = true;
         }
 
