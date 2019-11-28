@@ -23,7 +23,7 @@ namespace Microwave.Test.Unit
         public void TurnOn_WasOff_CorrectOutput()
         {
             uut.TurnOn(50);
-            output.Received().OutputLine(Arg.Is<string>(str => str.Contains("50 W")));
+            output.Received().OutputLine(Arg.Is<string>(str => str.Contains("50 W"))); //Rettelse af 50 % lavet om til 50 W
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace Microwave.Test.Unit
         [Test]
         public void TurnOn_HighPower_ThrowsException()
         {
-            Assert.Throws<System.ArgumentOutOfRangeException>(() => uut.TurnOn(701));
+            Assert.Throws<System.ArgumentOutOfRangeException>(() => uut.TurnOn(701)); //Rettelse fra 101 til 701, da 101 er inden for Watts mulige mængde
         }
 
         [Test]

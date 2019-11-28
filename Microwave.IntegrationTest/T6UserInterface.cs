@@ -50,11 +50,10 @@ namespace Microwave.IntegrationTest
 
             
             //_CookController = Substitute.For<CookController>();
-            _ui = Substitute.For<IUserInterface>();
-            _CookController = new CookController(_Timer, _Display, _PowerTube,_ui);
+            _CookController = new CookController(_Timer, _Display, _PowerTube);
             _uut = new UserInterface(_PowerButton, _TimeButton, _StartCancelButton, _Door,
                 _Display, _Light, _CookController);
-            
+            _CookController.UI = _uut;
         }
 
         #region OnPowerPressed
