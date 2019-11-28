@@ -14,7 +14,7 @@ using System.IO;
 namespace Microwave.IntegrationTest
 {
     [TestFixture]
-    public class T5CookController
+    public class T4CookController
     {
 
         private ITimer _Timer;

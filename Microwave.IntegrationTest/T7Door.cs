@@ -12,7 +12,7 @@ using NUnit.Framework;
 
 namespace Microwave.IntegrationTest
 {
-    class T7Button
+    class T7Door
     {
         private IOutput _Output;
 
@@ -24,7 +24,7 @@ namespace Microwave.IntegrationTest
         private IButton _PowerButton;
         private IButton _TimeButton;
         private IButton _StartCancelButton;
-        private IDoor _Door;
+        private IDoor _uut;
 
         private CookController _CookController;
         private UserInterface _UserInterface;
@@ -33,7 +33,7 @@ namespace Microwave.IntegrationTest
         public void Setup()
         {
             _Output = Substitute.For<IOutput>();
-            //_Output = new Output(); 
+            //_Output = new Output();
 
             _Display = new Display(_Output);
             _Light = new Light(_Output);
@@ -43,50 +43,36 @@ namespace Microwave.IntegrationTest
             _PowerButton = new Button();
             _TimeButton = new Button();
             _StartCancelButton = new Button();
-            _Door = Substitute.For<IDoor>();
+            _uut = new Door();
 
 
             _CookController = new CookController(_Timer, _Display, _PowerTube);
-            _UserInterface = new UserInterface(_PowerButton, _TimeButton, _StartCancelButton, _Door,
+            _UserInterface = new UserInterface(_PowerButton, _TimeButton, _StartCancelButton, _uut,
                 _Display, _Light, _CookController);
         }
-
+        
         [Test]
-        public void PowerButtonPressed_outputs_shows_50W()
+        public void DoorClosed_Opens_output_shows_LightIsturnedOn()
         {
-            //SetUp
-            //Act
-            _PowerButton.Press();
-            //Assert
-            _Output.Received().OutputLine(Arg.Is<string>(x => x == "Display shows: 50 W"));
-        }
 
-        [Test]
-        public void TimeButtonPressed_outputs_shows_1Minute()
-        {
             //SetUp
-            _PowerButton.Press();
+            _uut.Close();
             //Act
-            _TimeButton.Press();
+            _uut.Open();
             //Assert
-            _Output.Received().OutputLine(Arg.Is<string>(x => x == "Display shows: 50 W"));
-            _Output.Received().OutputLine(Arg.Is<string>(x => x == "Display shows: 01:00"));
-        }
-
-        [Test]
-        public void StartCancelButtonPressed_outputs_shows_PowerTurnedOn()
-        {
-            //SetUp
-            _PowerButton.Press();
-            _TimeButton.Press();
-            //Act
-            _StartCancelButton.Press();
-            //Assert
-            _Output.Received().OutputLine(Arg.Is<string>(x => x == "Display shows: 50 W"));
-            _Output.Received().OutputLine(Arg.Is<string>(x => x == "Display shows: 01:00"));
-            _Output.Received().OutputLine(Arg.Is<string>(x => x == "Display cleared"));
             _Output.Received().OutputLine(Arg.Is<string>(x => x == "Light is turned on"));
-            _Output.Received().OutputLine(Arg.Is<string>(x => x == "PowerTube works with 50 Watt"));
+        }
+
+        [Test]
+        public void DoorOpnend_Closes_output_shows_LightIsturnedOff()
+        {
+            //SetUp
+            _uut.Open();
+            //Act
+            _uut.Close();
+            //Assert
+            _Output.Received().OutputLine(Arg.Is<string>(x => x == "Light is turned on"));
+            _Output.Received().OutputLine(Arg.Is<string>(x => x == "Light is turned off"));
         }
     }
 }

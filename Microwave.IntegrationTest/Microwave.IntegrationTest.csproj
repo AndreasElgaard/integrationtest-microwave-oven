@@ -64,13 +64,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="T3PowerTube.cs" />
-    <Compile Include="T5CookController.cs" />
+    <Compile Include="T4CookController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="T1Display.cs" />
     <Compile Include="T2Light.cs" />
-    <Compile Include="T6UserInterface.cs" />
-    <Compile Include="T7Button.cs" />
-    <Compile Include="T8Door.cs" />
+    <Compile Include="T5UserInterface.cs" />
+    <Compile Include="T6Button.cs" />
+    <Compile Include="T7Door.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

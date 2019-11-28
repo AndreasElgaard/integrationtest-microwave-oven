@@ -14,7 +14,7 @@ using NUnit.Framework;
 namespace Microwave.IntegrationTest
 {
     [TestFixture]
-    class T6UserInterface
+    class T5UserInterface
     {
         private IOutput _Output;
 
