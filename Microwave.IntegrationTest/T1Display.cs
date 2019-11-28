@@ -21,7 +21,6 @@ namespace IntegrationTest
         public void Setup()
         {
             _output = new Output();
-            //_output = Substitute.For<IOutput>();
             _uut = new Display(_output);
         }
 
@@ -30,9 +29,6 @@ namespace IntegrationTest
         public void Test_ShowTimeIsWhatExpected(int min, int sec)
         {
             string output;
-            //int min = 59;
-            //int sec = 59; 
-            //_output.OutputLine($"Display shows: {min:D2}:{sec:D2}");
 
             using (StringWriter stringWriter = new StringWriter())
             {
@@ -64,8 +60,7 @@ namespace IntegrationTest
         public void Test_Clear_Is_what_expected()
         {
             string output;
-            //_output.OutputLine($"Display cleared");
-
+  
             using (StringWriter stringWriter = new StringWriter())
             {
                 Console.SetOut(stringWriter);
