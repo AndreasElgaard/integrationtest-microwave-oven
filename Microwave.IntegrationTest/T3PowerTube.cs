@@ -26,18 +26,18 @@ namespace Microwave.IntegrationTest
 
 
 
-        [TestCase(10)]
+        [TestCase(50)]
         public void Test_if_TurnOn_is_correct_input(int power)
         {
             //SetUp
             //Act
             _uut.TurnOn(power);
             //Assert
-            _output.Received().OutputLine(Arg.Is<string>(x => x == "PowerTube works with 10 %"));
+            _output.Received().OutputLine(Arg.Is<string>(x => x == "PowerTube works with 50 W"));
         }
 
 
-        [TestCase(10)]
+        [TestCase(50)]
         public void Test_if_TurnOf_works(int power)
         {
             //SetUp
