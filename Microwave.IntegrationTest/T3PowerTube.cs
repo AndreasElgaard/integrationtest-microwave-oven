@@ -24,21 +24,7 @@ namespace Microwave.IntegrationTest
             _uut = new PowerTube(_output);
         }
 
-        //[TestCase(10)]
-        ////[Test]
-        //public void Test_if_TunOn_is_correct_input(int power)
-        //{
-        //    string output;
-        //    //_uut.TurnOn(power);
-        //    using (StringWriter stringWriter = new StringWriter())
-        //    {
-        //        Console.SetOut(stringWriter);
-        //        _uut.TurnOn(power);
-        //        output = stringWriter.ToString();
-        //    }
 
-        //    Assert.That(output, Is.EqualTo("PowerTube works with 10 %\r\n"));
-        //}
 
         [TestCase(10)]
         public void Test_if_TurnOn_is_correct_input(int power)
@@ -64,33 +50,3 @@ namespace Microwave.IntegrationTest
     }
 }
 
-//[TestCase(101)]
-//[TestCase(0)]
-//[TestCase(10101)]
-//[Test]
-//public void Test_if_TunOn_is_Not_correct_input(int power)
-//{
-//    Assert.That(() => _uut.TurnOn(power), Throws.ArgumentException);
-//}
-
-//[TestCase(1)]
-//public void Test_if_TunOn_is_already_on_1(int power)
-//{
-//    _uut.TurnOn(power);
-//    Assert.That(() => _uut.TurnOn(power), Throws.InvalidOperationException);
-//}
-
-//[TestCase(99)]
-//public void Test_if_TunOn_is_already_on_99(int power)
-//{
-//    _uut.TurnOn(power);
-//    Assert.That(() => _uut.TurnOn(power), Throws.InvalidOperationException);
-//}
-
-
-//[TestCase(50)]
-//public void Test_if_TunOn_is_already_on(int power)
-//{
-//    _uut.TurnOn(power);
-//    Assert.That(() => _uut.TurnOn(power), Throws.InvalidOperationException);
-//}
