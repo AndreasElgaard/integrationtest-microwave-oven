@@ -50,37 +50,6 @@ namespace Microwave.IntegrationTest
             _output.Received().OutputLine(Arg.Is<string>(x => x == "PowerTube works with 10 %"));
         }
 
-        [TestCase(101)]
-        [TestCase(0)]
-        [TestCase(10101)]
-        //[Test]
-        public void Test_if_TunOn_is_Not_correct_input(int power)
-        {
-            Assert.That(() => _uut.TurnOn(power), Throws.ArgumentException);
-        }
-
-        [TestCase(1)]
-        public void Test_if_TunOn_is_already_on_1(int power)
-        {
-            _uut.TurnOn(power);
-            Assert.That(() => _uut.TurnOn(power), Throws.InvalidOperationException);
-        }
-
-        [TestCase(99)]
-        public void Test_if_TunOn_is_already_on_99(int power)
-        {
-            _uut.TurnOn(power);
-            Assert.That(() => _uut.TurnOn(power), Throws.InvalidOperationException);
-        }
-
-        
-        [TestCase(50)]
-        public void Test_if_TunOn_is_already_on(int power)
-        {
-            _uut.TurnOn(power);
-            Assert.That(() => _uut.TurnOn(power), Throws.InvalidOperationException);
-        }
-
         //[TestCase(10)]
         ////[Test]
         //public void Test_if_TurnOf_works(int power)
@@ -108,3 +77,34 @@ namespace Microwave.IntegrationTest
         }
     }
 }
+
+//[TestCase(101)]
+//[TestCase(0)]
+//[TestCase(10101)]
+//[Test]
+//public void Test_if_TunOn_is_Not_correct_input(int power)
+//{
+//    Assert.That(() => _uut.TurnOn(power), Throws.ArgumentException);
+//}
+
+//[TestCase(1)]
+//public void Test_if_TunOn_is_already_on_1(int power)
+//{
+//    _uut.TurnOn(power);
+//    Assert.That(() => _uut.TurnOn(power), Throws.InvalidOperationException);
+//}
+
+//[TestCase(99)]
+//public void Test_if_TunOn_is_already_on_99(int power)
+//{
+//    _uut.TurnOn(power);
+//    Assert.That(() => _uut.TurnOn(power), Throws.InvalidOperationException);
+//}
+
+
+//[TestCase(50)]
+//public void Test_if_TunOn_is_already_on(int power)
+//{
+//    _uut.TurnOn(power);
+//    Assert.That(() => _uut.TurnOn(power), Throws.InvalidOperationException);
+//}
