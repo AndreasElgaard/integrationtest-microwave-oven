@@ -15,6 +15,7 @@ namespace Microwave.Test.Unit
             uut = new Timer();
         }
 
+        //Tid ændret i denne test
         [Test]
         public void Start_TimerTick_ShortEnough()
         {
@@ -24,32 +25,34 @@ namespace Microwave.Test.Unit
             uut.Start(2);
 
             // wait for a tick, but no longer
-            Assert.That(pause.WaitOne(1100));
+            Assert.That(pause.WaitOne(1000));
 
             uut.Stop();
         }
 
+        //Tid ændret i test
         [Test]
         public void Start_TimerTick_LongEnough()
         {
             ManualResetEvent pause = new ManualResetEvent(false);
 
             uut.TimerTick += (sender, args) => pause.Set();
-            uut.Start(2);
+            uut.Start(20);
 
             // wait shorter than a tick, shouldn't come
-            Assert.That(!pause.WaitOne(800));
+            Assert.That(!pause.WaitOne(10));
 
             uut.Stop();
         }
 
+        //Tid ændret i test
         [Test]
         public void Start_TimerExpires_ShortEnough()
         {
             ManualResetEvent pause = new ManualResetEvent(false);
 
             uut.Expired += (sender, args) => pause.Set();
-            uut.Start(2000);
+            uut.Start(2);
 
             // wait for expiration, but not much longer, should come
             Assert.That(pause.WaitOne(2100));
@@ -57,6 +60,7 @@ namespace Microwave.Test.Unit
             uut.Stop();
         }
 
+        //Tid ændret i test
         [Test]
         public void Start_TimerExpires_LongEnough()
         {
@@ -66,11 +70,12 @@ namespace Microwave.Test.Unit
             uut.Start(5);
 
             // wait shorter than expiration, shouldn't come
-            Assert.That(!pause.WaitOne(5000));
+            Assert.That(!pause.WaitOne(50));
 
             uut.Stop();
         }
 
+        //Starttid ændret
         [Test]
         public void Start_TimerTick_CorrectNumber()
         {
@@ -80,10 +85,10 @@ namespace Microwave.Test.Unit
             uut.Expired += (sender, args) => pause.Set();
             uut.TimerTick += (sender, args) => notifications++;
 
-            uut.Start(2000);
+            uut.Start(2);
 
             // wait longer than expiration
-            Assert.That(pause.WaitOne(2100));
+            Assert.That(pause.WaitOne(2200));
             uut.Stop();
 
             Assert.That(notifications, Is.EqualTo(2));
