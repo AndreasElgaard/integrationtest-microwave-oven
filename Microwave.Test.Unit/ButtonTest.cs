@@ -31,5 +31,15 @@ namespace Microwave.Test.Unit
             Assert.That(notified, Is.EqualTo(true));
         }
 
+        [Test]
+        public void Press_1subscriber_IsNotNotified()
+        {
+            bool notified = false;
+
+            uut.Pressed += (sender, args) => notified = false;
+            uut.Press();
+            Assert.That(notified, Is.EqualTo(false));
+        }
+
     }
 }
