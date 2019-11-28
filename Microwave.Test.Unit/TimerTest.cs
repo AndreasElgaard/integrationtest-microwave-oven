@@ -25,7 +25,7 @@ namespace Microwave.Test.Unit
             uut.Start(2);
 
             // wait for a tick, but no longer
-            Assert.That(pause.WaitOne(1000));
+            Assert.That(pause.WaitOne(2000));
 
             uut.Stop();
         }
@@ -40,7 +40,7 @@ namespace Microwave.Test.Unit
             uut.Start(20);
 
             // wait shorter than a tick, shouldn't come
-            Assert.That(!pause.WaitOne(10));
+            Assert.That(!pause.WaitOne(800));
 
             uut.Stop();
         }
@@ -70,7 +70,7 @@ namespace Microwave.Test.Unit
             uut.Start(5);
 
             // wait shorter than expiration, shouldn't come
-            Assert.That(!pause.WaitOne(50));
+            Assert.That(!pause.WaitOne(4800));
 
             uut.Stop();
         }
