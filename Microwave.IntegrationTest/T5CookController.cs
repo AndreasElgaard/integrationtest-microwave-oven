@@ -28,7 +28,7 @@ namespace Microwave.IntegrationTest
         [SetUp]
         public void Setup()
         {
-            _Output = new Output();
+            _Output = Substitute.For<IOutput>();
             _Timer = Substitute.For<ITimer>();
             _Display = new Display(_Output);
             _PowerTube = new PowerTube(_Output);
@@ -41,19 +41,10 @@ namespace Microwave.IntegrationTest
         public void StartCooking_OutputsPower_AndCorrectRemainTime(int power, int time)
         {
             //Act
-            string output;
-
-            using (StringWriter sw = new StringWriter())
-            {
-                Console.SetOut(sw);
-
-                _uut.StartCooking(power, time);
-                
-                output = sw.ToString();
-            }
+            _uut.StartCooking(power, time);
 
             //Assert
-            Assert.That(output, Is.EqualTo($"PowerTube works with {power} %\r\n"));
+            _Output.Received().OutputLine(Arg.Is<string>(str => str.Contains($"PowerTube works with {power} Watt")));
             _Timer.Received(1).Start(time);
         }
 
@@ -61,9 +52,9 @@ namespace Microwave.IntegrationTest
         public void StartCooking_Outputs_TurnOnIsAlreadyOn()
         {
             //Act
-            _uut.StartCooking(20, 20);
+            _uut.StartCooking(70, 55);
 
-            Assert.Throws<InvalidOperationException>(() => _uut.StartCooking(20, 20));
+            Assert.Throws<ApplicationException>(() => _uut.StartCooking(70, 55));
         }
 
 
@@ -72,29 +63,19 @@ namespace Microwave.IntegrationTest
         [TestCase(0, 30)]
         public void StartCooking_PowerThrowsError_AndCorrectRemainTime(int power, int time)
         {
-            Assert.Throws<ArgumentException>(() => _uut.StartCooking(power,time));
+            Assert.Throws<ArgumentOutOfRangeException>(() => _uut.StartCooking(power,time));
         }
 
         [Test]
         public void StopCooking_OutpotsTurnedOff_TimerFalse()
         {
             //Act
-            string output;
-            
+            _uut.StartCooking(80, 20);
+            _uut.Stop();
 
-            using (StringWriter sw = new StringWriter())
-            {
-                _uut.StartCooking(10, 20);
-
-                Console.SetOut(sw);
-
-                _uut.Stop();
-
-                output = sw.ToString();
-            }
 
             //Assert
-            Assert.That(output, Is.EqualTo("PowerTube turned off\r\n"));
+            _Output.Received().OutputLine(Arg.Is<string>(str => str.Contains("PowerTube turned off")));
             _Timer.Received(1).Stop();
         }
 
@@ -102,21 +83,12 @@ namespace Microwave.IntegrationTest
         public void OnTimerExpired_OutputPower_UICookingisdone()
         {
             //Act
-            string output;
-           
+            _uut.StartCooking(80, 20);
+            _Timer.Expired += Raise.Event();
 
-            using (StringWriter sw = new StringWriter())
-            {
-                _uut.StartCooking(10, 10);
-                Console.SetOut(sw);
-
-                _Timer.Expired += Raise.Event();
-
-                output = sw.ToString();
-            }
 
             //Assert
-            Assert.That(output, Is.EqualTo("PowerTube turned off\r\n"));
+            _Output.Received().OutputLine(Arg.Is<string>(str => str.Contains("PowerTube turned off")));
             _Userinterface.Received(1).CookingIsDone();
         }
 
@@ -124,22 +96,12 @@ namespace Microwave.IntegrationTest
         public void OnTimerTick_DisplayTime()
         {
             //Act
-            string output;
-            
-            using (StringWriter sw = new StringWriter())
-            {
-                _uut.StartCooking(20, 30);
-                Console.SetOut(sw);
+            _uut.StartCooking(80, 30);
+            _Timer.TimerTick += Raise.Event();
 
-                _Timer.TimerTick += Raise.Event();
-
-                output = sw.ToString();
-            }
-
+            //Assert
             var time = _Timer.TimeRemaining;
-
-            Assert.That(output, Is.EqualTo($"Display shows: {time/60:D2}:{time&60:D2}\r\n"));
-
+            _Output.Received().OutputLine(Arg.Is<string>(str => str.Contains($"Display shows: {time / 60:D2}:{time & 60:D2}")));
         }
     }
 }

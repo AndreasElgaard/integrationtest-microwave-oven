@@ -44,7 +44,6 @@ namespace IntegrationTest
 
             //Assert
             _output.Received().OutputLine(Arg.Is<string>(str => str.Contains("Light is turned off")));
-
         }
     }
 }
