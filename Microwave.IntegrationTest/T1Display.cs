@@ -14,61 +14,47 @@ namespace IntegrationTest
     [TestFixture]
     public class T1Display
     {
-        private IOutput _output;
+        private IOutput _Output;
         private Display _uut;
 
         [SetUp]
         public void Setup()
         {
-            _output = new Output();
-            _uut = new Display(_output);
+            _Output = Substitute.For<IOutput>();
+            _uut = new Display(_Output);
         }
 
         [TestCase(59, 59)]
         //[Test]
         public void Test_ShowTimeIsWhatExpected(int min, int sec)
         {
-            string output;
-
-            using (StringWriter stringWriter = new StringWriter())
-            {
-                Console.SetOut(stringWriter);
-                _uut.ShowTime(min, sec);
-                output = stringWriter.ToString();
-            }
-
-            Assert.That(output, Is.EqualTo($"Display shows: {min}:{sec}\r\n"));
+            //SetUp
+            //Act
+            _uut.ShowTime(min, sec);
+            //Assert
+            _Output.Received().OutputLine(Arg.Is<string>(x => x == $"Display shows: {min}:{sec}"));
         }
 
         [TestCase(2)]
         //[Test]
         public void Test_ShowPower_Is_what_expected(int power)
         {
-            string output;
-
-            using (StringWriter stringWriter = new StringWriter())
-            {
-                Console.SetOut(stringWriter);
-                _uut.ShowPower(power);
-                output = stringWriter.ToString();
-            }
-
-            Assert.That(output, Is.EqualTo($"Display shows: {power} W\r\n"));
+            //SetUp
+            //Act
+            _uut.ShowPower(power);
+            //Assert
+            _Output.Received().OutputLine(Arg.Is<string>(x => x == $"Display shows: {power} W"));
         }
 
         [Test]
         public void Test_Clear_Is_what_expected()
         {
-            string output;
-  
-            using (StringWriter stringWriter = new StringWriter())
-            {
-                Console.SetOut(stringWriter);
-                _uut.Clear();
-                output = stringWriter.ToString();
-            }
 
-            Assert.That(output, Is.EqualTo($"Display cleared\r\n"));
+            //SetUp
+            //Act
+            _uut.Clear();
+            //Assert
+            _Output.Received().OutputLine(Arg.Is<string>(x => x == $"Display cleared"));
         }
     }
 }

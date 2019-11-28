@@ -32,8 +32,8 @@ namespace Microwave.IntegrationTest
         [SetUp]
         public void Setup()
         {
-            //_Output = Substitute.For<IOutput>();
-            _Output = new Output(); 
+            _Output = Substitute.For<IOutput>();
+            //_Output = new Output(); 
 
             _Display = new Display(_Output);
             _Light = new Light(_Output);
@@ -54,47 +54,39 @@ namespace Microwave.IntegrationTest
         [Test]
         public void PowerButtonPressed_outputs_shows_50W()
         {
-            string output;
-            using (StringWriter stringWriter = new StringWriter())
-            {
-                Console.SetOut(stringWriter);
-                _PowerButton.Press();
-                output = stringWriter.ToString();
-            }
-
-            Assert.That(output, Is.EqualTo("Display shows: 50 W\r\n"));
+            //SetUp
+            //Act
+            _PowerButton.Press();
+            //Assert
+            _Output.Received().OutputLine(Arg.Is<string>(x => x == "Display shows: 50 W"));
         }
 
         [Test]
         public void TimeButtonPressed_outputs_shows_1Minute()
         {
-            string output;
-            using (StringWriter stringWriter = new StringWriter())
-            {
-                Console.SetOut(stringWriter);
-                _PowerButton.Press();
-                _TimeButton.Press();
-                output = stringWriter.ToString();
-            }
-
-            Assert.That(output, Is.EqualTo("Display shows: 50 W\r\nDisplay shows: 01:00\r\n"));
+            //SetUp
+            _PowerButton.Press();
+            //Act
+            _TimeButton.Press();
+            //Assert
+            _Output.Received().OutputLine(Arg.Is<string>(x => x == "Display shows: 50 W"));
+            _Output.Received().OutputLine(Arg.Is<string>(x => x == "Display shows: 01:00"));
         }
 
         [Test]
         public void StartCancelButtonPressed_outputs_shows_PowerTurnedOn()
         {
-            string output;
-            using (StringWriter stringWriter = new StringWriter())
-            {
-                Console.SetOut(stringWriter);
-                _PowerButton.Press();
-                _TimeButton.Press();
-                _StartCancelButton.Press();
-                output = stringWriter.ToString();
-            }
-
-            Assert.That(output, Is.EqualTo("Display shows: 50 W\r\nDisplay shows: 01:00\r\n" +
-                                           "Display cleared\r\nLight is turned on\r\nPowerTube works with 50 Watt\r\n"));
+            //SetUp
+            _PowerButton.Press();
+            _TimeButton.Press();
+            //Act
+            _StartCancelButton.Press();
+            //Assert
+            _Output.Received().OutputLine(Arg.Is<string>(x => x == "Display shows: 50 W"));
+            _Output.Received().OutputLine(Arg.Is<string>(x => x == "Display shows: 01:00"));
+            _Output.Received().OutputLine(Arg.Is<string>(x => x == "Display cleared"));
+            _Output.Received().OutputLine(Arg.Is<string>(x => x == "Light is turned on"));
+            _Output.Received().OutputLine(Arg.Is<string>(x => x == "PowerTube works with 50 Watt"));
         }
     }
 }

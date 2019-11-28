@@ -32,17 +32,17 @@ namespace Microwave.IntegrationTest
         [SetUp]
         public void Setup()
         {
-            //_Output = Substitute.For<IOutput>();
-            _Output = new Output();
+            _Output = Substitute.For<IOutput>();
+            //_Output = new Output();
 
             _Display = new Display(_Output);
             _Light = new Light(_Output);
             _PowerTube = new PowerTube(_Output);
             _Timer = Substitute.For<ITimer>();
 
-            _PowerButton = Substitute.For<IButton>();
-            _TimeButton = Substitute.For<IButton>();
-            _StartCancelButton = Substitute.For<IButton>();
+            _PowerButton = new Button();
+            _TimeButton = new Button();
+            _StartCancelButton = new Button();
             _uut = new Door();
 
 
@@ -54,31 +54,25 @@ namespace Microwave.IntegrationTest
         [Test]
         public void DoorClosed_Opens_output_shows_LightIsturnedOn()
         {
-            string output;
-            using (StringWriter stringWriter = new StringWriter())
-            {
-                Console.SetOut(stringWriter);
-                _uut.Close();
-                _uut.Open();
-                output = stringWriter.ToString();
-            }
 
-            Assert.That(output, Is.EqualTo($"Light is turned on\r\n"));
+            //SetUp
+            _uut.Close();
+            //Act
+            _uut.Open();
+            //Assert
+            _Output.Received().OutputLine(Arg.Is<string>(x => x == "Light is turned on"));
         }
 
         [Test]
         public void DoorOpnend_Closes_output_shows_LightIsturnedOff()
         {
-            string output;
-            using (StringWriter stringWriter = new StringWriter())
-            {
-                Console.SetOut(stringWriter);
-                _uut.Open();
-                _uut.Close();
-                output = stringWriter.ToString();
-            }
-
-            Assert.That(output, Is.EqualTo($"Light is turned on\r\nLight is turned off\r\n"));
+            //SetUp
+            _uut.Open();
+            //Act
+            _uut.Close();
+            //Assert
+            _Output.Received().OutputLine(Arg.Is<string>(x => x == "Light is turned on"));
+            _Output.Received().OutputLine(Arg.Is<string>(x => x == "Light is turned off"));
         }
     }
 }
