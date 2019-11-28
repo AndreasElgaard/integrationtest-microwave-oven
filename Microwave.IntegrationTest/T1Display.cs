@@ -42,11 +42,6 @@ namespace IntegrationTest
             }
 
             Assert.That(output, Is.EqualTo($"Display shows: {min}:{sec}\r\n"));
-
-            //_uut.ShowTime(min, sec);
-            ////Assert
-            //_output.Received().OutputLine(Arg.Is<string>(x =>
-            //    x == $"Display shows: {min}:{sec}"));
         }
 
         [TestCase(2)]
@@ -54,8 +49,6 @@ namespace IntegrationTest
         public void Test_ShowPower_Is_what_expected(int power)
         {
             string output;
-            //int power = 2; 
-            //_output.OutputLine($"Display shows: {power} W");
 
             using (StringWriter stringWriter = new StringWriter())
             {
